@@ -1,0 +1,37 @@
+.content{
+    float:left;
+    width: 60%;
+    padding:20px 0 0 60px;
+}
+.sidebar{
+    float:right;
+    width:30%;
+    padding:10px;
+    background: rgb(204, 203, 203);
+    height: 100%;
+    border-radius: 10px;
+}
+h1{
+    text-align: center;
+    border-bottom: 1px solid #bbb;
+    padding: 0 0 10px 0;
+}
+#date{
+    color:rgb(42, 95, 241);
+    font-size:13px;
+    font-style: italic;
+}
+
+
+#disptext{
+    color: rgb(117 117 117);
+    font-style: italic;
+}
+
+
+
+body{
+    background: rgb(238, 234, 234);
+    color:rgb(14, 13, 13);
+}
+

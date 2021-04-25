@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+
+{% block title_block %}
+    {{post.title}}
+{% endblock title_block %}
+
+{% block content_block %}
+        <h4>{{post.title}}</h4> 
+        <p id="date"> Posted on {{post.publish}} by {{post.author}}</p>
+        <b style="font-size:20px">Share By:</b><br>
+        <a href="{% url 'share' post.id %}" id="share-em" class="sharer button" target="_blank"><i class="fa fa-3x fa-envelope-square"></i></a>
+        <br><hr>
+        {{post.body|linebreaks}}
+        <hr>
+        {% with comments.count as comment_count %}
+            <h2>{{comment_count}} Comment{{comment_count|pluralize}}</h2>
+        {% endwith %}
+
+        {% for comment in comments %}
+            <hr>
+            <b>{{comment.name}}</b>    {{comment.created}}
+            <br>
+            <i>{{comment.body}}</i>
+        {% endfor %}
+
+        {% if csubmit %}
+            <p> Commented Submitted </p>
+        {% else %}
+        <br><br><br><br>
+        <form method='POST'>
+            {{form.as_p}}
+            {% csrf_token %}
+            <input type='submit'>
+        </form>
+            
+        {% endif %}
+{% endblock content_block %}
+
