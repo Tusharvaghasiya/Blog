@@ -4,11 +4,15 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from blog.forms import ShareByEmailForm, CommentForm
 from django.core.mail import send_mail
 from taggit.models import Tag
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib import messages
 
+def about(request):
+    return render(request, 'blog/about.html')
 
 def post_list_view(request, tag_slug=None):
     post = Post.list_objects.all()
-    # tag_slug=None
     tag=None
     if tag_slug:
         tag=get_object_or_404(Tag,slug=tag_slug)
@@ -26,6 +30,7 @@ def post_list_view(request, tag_slug=None):
     print(type(post))
     return render(request, 'blog/post_list.html', {'post_list': post, 'tag':tag})
 
+@login_required
 def post_detail_view(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post,
                              status='published',
@@ -39,14 +44,17 @@ def post_detail_view(request, year, month, day, post):
         if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.post = post
+            new_comment.user = request.user
             new_comment.save()
             csubmit = True
+            messages.add_message(request, messages.SUCCESS, 'Comment Submitted!')
     else:
         form = CommentForm()
     return render(request, 'blog/post_detail.html', {'post':post, 'form':form, 'csubmit':csubmit, 
                 'comments':comments})
 
 
+@login_required
 def shareByEmail(request, id):
     post = get_object_or_404(Post, id=id)
     form = ShareByEmailForm()
@@ -55,8 +63,11 @@ def shareByEmail(request, id):
         if form.is_valid():
             email = form.cleaned_data['to_email']
             blog_link =  request.build_absolute_uri(post.get_absolute_url())
+            print('--------------')
+            print(request)
+            username = request.user.username
             print(blog_link)
-            subject = 'Your friend "{}" recommended you to read ->"{}" '.format(form.cleaned_data['username'], post.title)
+            subject = 'Your friend "{}" recommended you to read ->"{}" '.format(username, post.title)
             send_mail(subject, blog_link, None, [email, ], fail_silently=False)
             sent = True
             return render(request, 'blog/sharebyemail.html', {'sent':sent})

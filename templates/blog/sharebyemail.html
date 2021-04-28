@@ -1,4 +1,5 @@
 {% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content_block %}
 
@@ -7,7 +8,7 @@
     {% else %}
         <p> Share post <span id="disptext">"{{post.title}}"</span> via Email </p>
         <form method="POST">
-            {{form.as_p}}
+            {{ form|crispy }}
             {% csrf_token %}
             <input type="submit">
         </form>

@@ -21,9 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-99a+y_@kqc!dp9$443zi#+o5ce)k%a+#8_+f@kcsfe(&1_q@2^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'taggit',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,6 @@ DATABASES = {
         'NAME': 'blogdb',
         'USER': 'root',
         'PASSWORD': 'admin', 
-        
     }
 }
 
@@ -127,6 +127,10 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     '/var/www/static/',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+LOGIN_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL='/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
