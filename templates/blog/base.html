@@ -17,16 +17,28 @@
   <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light top-bar fixed">
-      <a class="navbar-brand" href="{% url 'home' %}">Medium</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Medium</a>
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
         </div>
-      </div>
+       <div id="navbarSupportedContent" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto ">
+        {% if user.is_authenticated %}
+            <li class="nav-item active"><a href="{% url 'create' %}" class="nav-link">NewPost</a></li>
+            <li class="nav-item active"><a href="/accounts/logout" class="nav-link">Logout</a></li>
+
+        {% else %}
+          <li class="nav-item active"><a href="/accounts/login" class="nav-link">Login</a></li>
+          <li class="nav-item active"><a href="{% url 'signup' %}" class="nav-link">SignUp</a></li>
+        {% endif %}
+        
+      </ul>
+
     </nav>
 
     <div class="content">

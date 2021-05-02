@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'blog',
     'taggit',
     'crispy_forms',
+     'verify_email.apps.VerifyEmailConfig',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,12 @@ LOGIN_REDIRECT_URL='/'
 LOGOUT_REDIRECT_URL='/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+#verify app
+# EXPIRE_AFTER = "1h"
+MAX_RETRIES = 3
+LOGIN_URL = 'login'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

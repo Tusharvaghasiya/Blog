@@ -6,44 +6,57 @@
 {% endblock title_block %}
 
 {% block content_block %}
-        <h4>{{post.title}}</h4> 
+        {% if csubmit %}
+            {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+            {% endif %}
+        {% endif %}
+        <h4>{{post.title}}</h4>
         <p id="date"> Posted on {{post.publish}} by {{post.author}}</p>
         <b style="font-size:20px">Share By:</b><br>
         <a href="{% url 'share' post.id %}" id="share-em" class="sharer button" target="_blank"><i class="fa fa-3x fa-envelope-square"></i></a>
-        <br><hr>
+        <br>
+        <hr>
         {{post.body|linebreaks}}
         <hr>
+        <br>
+        {% if similar_post %}
+            <h4><b> Similar Post </b></h4>
+            <div class='container'>
+            <ol>
+            {% for post in similar_post %}
+            <li><a href="{{post.get_absolute_url}}"> {{post.title}} </a></li>
+            {% endfor %}
+            </ol>
+            </div>
+            <hr style="color:red">
+        {% endif %}
+
         {% with comments.count as comment_count %}
             <h2>{{comment_count}} Comment{{comment_count|pluralize}}</h2>
         {% endwith %}
 
         {% for comment in comments %}
+
             <hr>
             <b>{{comment.user.username}}</b>    {{comment.created}}
             <br>
             <i>{{comment.body}}</i>
+            {% if comment.user == user %}
+                <p> yes, its working... </p>
+            {% endif %}
         {% endfor %}
 
-        {% if csubmit %}
-            {% if messages %}
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}" role="alert">
-                            <p>{{ message }}</p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-        {% else %}
-        <br><br><br><br>
-        <form method='POST'>
-            {{ form|crispy }}
-            {% csrf_token %}
-            <input type='submit'>
-        </form>
-            
+        {% if not csubmit %}
+            <br><br><br><br>
+            <form method='POST'>
+                {{ form|crispy }}
+                {% csrf_token %}
+                <input type='submit' value="Comment">
+            </form>
         {% endif %}
 {% endblock content_block %}
-

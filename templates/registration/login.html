@@ -3,10 +3,18 @@
 
 {% block content_block %}
 
+    {% if messages %}
+        {% for message in messages %}
+           <div class="alert alert-info" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
 <form method="POST">
             {{ form|crispy }}
             {% csrf_token %}
-            <input type="submit">
+            <input type="submit" value='Login'>
 </form>
 
 {% endblock content_block %}
